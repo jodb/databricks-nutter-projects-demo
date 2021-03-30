@@ -48,7 +48,7 @@ stages:
         echo "Checking out the $(Build.SourceBranchName) branch"
         curl -s -n -X POST -o "/tmp/$(Build.SourceBranchName)-out.json" "$DATABRICKS_HOST/api/2.0/projects/fetch-and-checkout" \
           -H "Authorization: Bearer $DATABRICKS_TOKEN" \
-          -d "{\"path\": \"/Projects/christopher.chalcraft@databricks.com/Staging\", \"branch\": \"$(Build.SourceBranchName)\"}"; \
+          -d "{\"path\": \"/Projects/Staging\", \"branch\": \"$(Build.SourceBranchName)\"}"; \
           cat "/tmp/$(Build.SourceBranchName)-out.json"; \
           grep -v error_code "/tmp/$(Build.SourceBranchName)-out.json"
       env:
@@ -57,7 +57,7 @@ stages:
       displayName: 'Update Staging project'
 
     - script: |
-        nutter run '/Projects/christopher.chalcraft@databricks.com/Staging/' --cluster_id $(CLUSTER_ID) --recursive --junit_report
+        nutter run '/Projects/Staging/' --cluster_id $(CLUSTER_ID) --recursive --junit_report
       env:
         DATABRICKS_HOST: $(DATABRICKS_HOST)
         DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
@@ -102,7 +102,7 @@ stages:
           echo "Checking out the $(Build.SourceBranchName) branch"
           curl -s -n -X POST -o "/tmp/$(Build.SourceBranchName)-out.json" "$DATABRICKS_HOST/api/2.0/projects/fetch-and-checkout" \
             -H "Authorization: Bearer $DATABRICKS_TOKEN" \
-            -d "{\"path\": \"/Projects/christopher.chalcraft@databricks.com/Production\", \"branch\": \"$(Build.SourceBranchName)\"}" && \
+            -d "{\"path\": \"/Projects/Production\", \"branch\": \"$(Build.SourceBranchName)\"}" && \
             cat "/tmp/$(Build.SourceBranchName)-out.json" && \
             grep -v error_code "/tmp/$(Build.SourceBranchName)-out.json"
         env:
@@ -112,7 +112,7 @@ stages:
 
 # We can do a separate set of the tests for release branches
       - script: |
-          nutter run '/Projects/christopher.chalcraft@databricks.com/Production/' --cluster_id $(CLUSTER_ID) --recursive --junit_report
+          nutter run '/Projects/Production/' --cluster_id $(CLUSTER_ID) --recursive --junit_report
         env:
           DATABRICKS_HOST: $(DATABRICKS_HOST)
           DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
