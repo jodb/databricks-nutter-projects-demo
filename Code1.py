@@ -1,4 +1,5 @@
 # Databricks notebook source
+# a new comment
 default_name = "DefaultUnknown"
 
 dbutils.widgets.text("name", default_name, "Enter user name")
